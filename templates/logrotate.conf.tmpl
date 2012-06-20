@@ -1,0 +1,15 @@
+## Logrotate configuration file fo Zope Debian package
+## /etc/logrotate.d/zope2.10
+
+${buildout:directory}/var/log/instance.log ${buildout:directory}/var/log/instance-Z2.log {
+    rotate 52
+    weekly
+    create
+    compress
+    delaycompress
+    sharedscripts
+    postrotate
+        /bin/kill -USR2 $(cat ${buildout:directory}/var/instance.pid)
+        ${buildout:bin-directory}/instance logreopen
+    endscript
+}
